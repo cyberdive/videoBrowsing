@@ -13,6 +13,7 @@ namespace videobrowsing
 {
     public partial class Form1 : Form
     {
+       public DirectoryInfo nodeDirInfo;
         public Form1()
         {
             InitializeComponent();
@@ -24,7 +25,7 @@ namespace videobrowsing
             TreeNode rootNode;
 
             //DirectoryInfo info = new DirectoryInfo(@"../../../../../..");
-            DirectoryInfo info = new DirectoryInfo(@"Z:/doc/Pluralsight/");
+            DirectoryInfo info = new DirectoryInfo(@"//192.168.1.124/private/doc/Pluralsight/");
         
             if (info.Exists)
             {
@@ -62,12 +63,12 @@ namespace videobrowsing
         {
 
         }
-        void treeView1_NodeMouseClick(object sender,
-    TreeNodeMouseClickEventArgs e)
+        void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
+           
             TreeNode newSelected = e.Node;
             listView1.Items.Clear();
-            DirectoryInfo nodeDirInfo = (DirectoryInfo)newSelected.Tag;
+            nodeDirInfo = (DirectoryInfo)newSelected.Tag;
             ListViewItem.ListViewSubItem[] subItems;
             ListViewItem item = null;
 
@@ -83,14 +84,18 @@ namespace videobrowsing
             }
             foreach (FileInfo file in nodeDirInfo.GetFiles())
             {
+                String filename1 = file.Name;
+                if (filename1.Contains(".mp4"))
+                    { 
                 item = new ListViewItem(file.Name, 1);
                 subItems = new ListViewItem.ListViewSubItem[]
                     { new ListViewItem.ListViewSubItem(item, "File"),
-             new ListViewItem.ListViewSubItem(item,
-                file.LastAccessTime.ToShortDateString())};
+                    new ListViewItem.ListViewSubItem(item, file.LastAccessTime.ToShortDateString())
+                    };
 
                 item.SubItems.AddRange(subItems);
                 listView1.Items.Add(item);
+                }
             }
 
             listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
@@ -98,10 +103,18 @@ namespace videobrowsing
 
         private void listView1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string strCmdText;
-            strCmdText = "\"Z:\\doc\\Pluralsight\\Architecting Azure Solutions (70-534)- Infrastructure and Networking\\0. Introduction to the Infrastructure and Networking Objective Domain\\0. Overview.mp4\"";
-            System.Diagnostics.Process.Start("C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc.exe", strCmdText);
+            if (listView1.SelectedItems.Count > 0)
+            {
+                string filename = listView1.SelectedItems[0].Text;
+
+                string strCmdText;
+                //strCmdText = "\"\\\\192.168.1.124\\private\\doc\\Pluralsight\\Architecting Azure Solutions (70-534)- Infrastructure and Networking\\0. Introduction to the Infrastructure and Networking Objective Domain\\" + listView1.SelectedItems[0].Text + "\"";
+                strCmdText = "\"" + nodeDirInfo.FullName + "\\" + filename + "\""; ;
+                System.Diagnostics.Process.Start("C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc.exe", strCmdText);
+
+            }
 
         }
+       
     }
 }
