@@ -24,11 +24,24 @@ namespace videobrowsing
             InitializeComponent();
             index = 0;
             Tableau_ipo = new recordhistory[0];
-
             loadFromSerial();
-            PopulateTreeView();
+        
+           
+            if (File.Exists("enregistreFolders.bin") == true)
+            {
+                loadFoldersFromSerial(treeView1, "enregistreFolders.bin");
+            }
+            else
+            { PopulateTreeView();
+                SAveFoldersSerial(treeView1, "enregistreFolders.bin");
+            }
             
+
+
+          
             
+
+
 
         }
         private void PopulateTreeView()
@@ -155,8 +168,85 @@ namespace videobrowsing
             f.Close();
                 }
 
-     
+      
+       public static int loadFoldersFromSerial(TreeView tree, string filename)
+        {
+            if (File.Exists(filename))
+            {
+                // Datei öffnen
+                Stream file = File.Open(filename, FileMode.Open);
+                // Binär-Formatierer init.
+                BinaryFormatter bf = new BinaryFormatter();
+                // Object var. init.
+                object obj = null;
+                try
+                {
+                    // Daten aus der Datei deserialisieren
+                    obj = bf.Deserialize(file);
+                }
+                catch (System.Runtime.Serialization.SerializationException e)
+                {
+                    MessageBox.Show("De-Serialization failed : {0}", e.Message);
+                    return -1;
+                }
+                // Datei schliessen
+                file.Close();
 
+                // Neues Array erstellen
+                ArrayList nodeList = obj as ArrayList;
+
+                // load Root-Nodes
+                foreach (TreeNode node in nodeList)
+                {
+                    tree.Nodes.Add(node);
+                }
+                return 0;
+
+            }
+            else return -2; // File existiert nicht
+        }
+
+        public static int SAveFoldersSerial(TreeView tree, string filename)
+        {
+            // Neues Array anlegen
+            ArrayList al = new ArrayList();
+            foreach (TreeNode tn in tree.Nodes)
+            {
+                // jede RootNode im TreeView sichern ...
+                al.Add(tn);
+            }
+
+            // Datei anlegen
+            Stream file = File.Open(filename, FileMode.Create);
+            // Binär-Formatierer init.
+            BinaryFormatter bf = new BinaryFormatter();
+            try
+            {
+                // Serialisieren des Arrays
+                bf.Serialize(file, al);
+            }
+            catch (System.Runtime.Serialization.SerializationException e)
+            {
+                MessageBox.Show("Serialization failed : {0}", e.Message);
+                return -1; // ERROR
+            }
+
+            // Datei schliessen
+            file.Close();
+
+            return 0; // OKAY
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            PopulateTreeView();
+            SAveFoldersSerial(treeView1, "enregistreFolders.bin");
+        }
     }
-    
+
 }
