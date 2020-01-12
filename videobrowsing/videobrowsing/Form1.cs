@@ -18,14 +18,17 @@ namespace videobrowsing
     {
        public DirectoryInfo nodeDirInfo;
        private recordhistory[] Tableau_ipo  ;
+        private int index;
         public Form1()
         {
             InitializeComponent();
-       
-            PopulateTreeView();
-            loadFromSerial();
-            Tableau_ipo = new recordhistory[100];
+            index = 0;
+            Tableau_ipo = new recordhistory[0];
 
+            loadFromSerial();
+            PopulateTreeView();
+            
+            
 
         }
         private void PopulateTreeView()
@@ -121,7 +124,12 @@ namespace videobrowsing
                 System.Diagnostics.Process.Start("C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc.exe", strCmdText);
                 elt.filename = filename;
                 elt.path = nodeDirInfo.FullName;
-                Tableau_ipo.Append(elt);
+                Array.Resize(ref Tableau_ipo, Tableau_ipo.Length + 1);
+                
+                Tableau_ipo[index]=elt;
+                index = index + 1;
+                // System.Console.WriteLine (Tableau_ipo.Length);
+
                 SAve_Click();
             }
 
@@ -135,6 +143,8 @@ namespace videobrowsing
                 BinaryFormatter s = new BinaryFormatter();
                 Tableau_ipo = (recordhistory[]) s.Deserialize(f);
                 f.Close();
+                index = Tableau_ipo.Length;
+                System.Console.WriteLine(Tableau_ipo.Length);
             }        
         }
         private void SAve_Click() {
