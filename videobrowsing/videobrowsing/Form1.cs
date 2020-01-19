@@ -14,12 +14,12 @@ using System.Runtime.Serialization;
 
 namespace videobrowsing
 {
-    public partial class Form1 : Form
+    public partial class Frmhome : Form
     {
        public DirectoryInfo nodeDirInfo;
        private recordhistory[] Tableau_ipo  ;
         private int index;
-        public Form1()
+        public Frmhome()
         {
             InitializeComponent();
             index = 0;
@@ -79,7 +79,7 @@ namespace videobrowsing
                     }
                     nodeToAddTo.Nodes.Add(aNode);
                 }
-                catch (Exception ex) { }
+                catch (Exception ex) { System.Console.WriteLine(ex); }
 
             }
         }
@@ -141,6 +141,8 @@ namespace videobrowsing
                 
                 Tableau_ipo[index]=elt;
                 index = index + 1;
+                listBox1.Items.Add(elt.path + elt.filename);
+
                 // System.Console.WriteLine (Tableau_ipo.Length);
 
                 SAve_Click();
@@ -158,7 +160,11 @@ namespace videobrowsing
                 f.Close();
                 index = Tableau_ipo.Length;
                 System.Console.WriteLine(Tableau_ipo.Length);
-            }        
+            }
+            foreach (recordhistory elt in Tableau_ipo)
+            {
+                listBox1.Items.Add(elt.path + elt.filename);
+            }
         }
         private void SAve_Click() {
             FileStream f = File.Create("enregistre.bin");
@@ -246,6 +252,32 @@ namespace videobrowsing
         {
             PopulateTreeView();
             SAveFoldersSerial(treeView1, "enregistreFolders.bin");
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listBox1.SelectedItems.Count > 0)
+            {
+                string filename = listBox1.GetItemText(listBox1.SelectedItem);
+               
+                string strCmdText;
+                //strCmdText = "\"\\\\192.168.1.124\\private\\doc\\Pluralsight\\Architecting Azure Solutions (70-534)- Infrastructure and Networking\\0. Introduction to the Infrastructure and Networking Objective Domain\\" + listView1.SelectedItems[0].Text + "\"";
+                strCmdText = "\"" +  filename + "\""; ;
+                System.Diagnostics.Process.Start("C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc.exe", strCmdText);
+              
+
+                SAve_Click();
+            }
         }
     }
 

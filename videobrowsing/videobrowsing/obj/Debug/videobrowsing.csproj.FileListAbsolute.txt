@@ -1,5 +1,4 @@
 D:\git\videoBrowsing\videobrowsing\videobrowsing\obj\Debug\videobrowsing.csprojAssemblyReference.cache
-D:\git\videoBrowsing\videobrowsing\videobrowsing\obj\Debug\videobrowsing.Form1.resources
 D:\git\videoBrowsing\videobrowsing\videobrowsing\obj\Debug\videobrowsing.Properties.Resources.resources
 D:\git\videoBrowsing\videobrowsing\videobrowsing\obj\Debug\videobrowsing.csproj.GenerateResource.cache
 D:\git\videoBrowsing\videobrowsing\videobrowsing\bin\Debug\videobrowsing.exe.config
@@ -7,3 +6,4 @@ D:\git\videoBrowsing\videobrowsing\videobrowsing\bin\Debug\videobrowsing.exe
 D:\git\videoBrowsing\videobrowsing\videobrowsing\bin\Debug\videobrowsing.pdb
 D:\git\videoBrowsing\videobrowsing\videobrowsing\obj\Debug\videobrowsing.exe
 D:\git\videoBrowsing\videobrowsing\videobrowsing\obj\Debug\videobrowsing.pdb
+D:\git\videoBrowsing\videobrowsing\videobrowsing\obj\Debug\videobrowsing.Frmhome.resources
