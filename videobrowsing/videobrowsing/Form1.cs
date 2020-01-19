@@ -50,12 +50,19 @@ namespace videobrowsing
 
             //DirectoryInfo info = new DirectoryInfo(@"../../../../../..");
             DirectoryInfo info = new DirectoryInfo(@"//192.168.1.124/private/doc/Pluralsight/");
-        
+            DirectoryInfo info2 = new DirectoryInfo(@"//192.168.1.124/private/doc/udemy/");
             if (info.Exists)
             {
                 rootNode = new TreeNode(info.Name);
                 rootNode.Tag = info;
                 GetDirectories(info.GetDirectories(), rootNode);
+                treeView1.Nodes.Add(rootNode);
+            }
+            if (info2.Exists)
+            {
+                rootNode = new TreeNode(info2.Name);
+                rootNode.Tag = info2;
+                GetDirectories(info2.GetDirectories(), rootNode);
                 treeView1.Nodes.Add(rootNode);
             }
         }
