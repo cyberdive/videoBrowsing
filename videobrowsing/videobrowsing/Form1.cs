@@ -90,10 +90,7 @@ namespace videobrowsing
 
             }
         }
-        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-
-        }
+       
         void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
            
@@ -142,13 +139,14 @@ namespace videobrowsing
                 //strCmdText = "\"\\\\192.168.1.124\\private\\doc\\Pluralsight\\Architecting Azure Solutions (70-534)- Infrastructure and Networking\\0. Introduction to the Infrastructure and Networking Objective Domain\\" + listView1.SelectedItems[0].Text + "\"";
                 strCmdText = "\"" + nodeDirInfo.FullName + "\\" + filename + "\""; ;
                 System.Diagnostics.Process.Start("C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc.exe", strCmdText);
+                System.Console.WriteLine(strCmdText);
                 elt.filename = filename;
                 elt.path = nodeDirInfo.FullName;
                 Array.Resize(ref Tableau_ipo, Tableau_ipo.Length + 1);
                 
                 Tableau_ipo[index]=elt;
                 index = index + 1;
-                listBox1.Items.Add(elt.path + elt.filename);
+                listBox1.Items.Add(strCmdText);
 
                 // System.Console.WriteLine (Tableau_ipo.Length);
 
@@ -170,7 +168,8 @@ namespace videobrowsing
             }
             foreach (recordhistory elt in Tableau_ipo)
             {
-                listBox1.Items.Add(elt.path + elt.filename);
+                listBox1.Items.Add("\"" + elt.path + "\\" + elt.filename + "\""  );
+
             }
         }
         private void SAve_Click() {
@@ -279,9 +278,9 @@ namespace videobrowsing
                
                 string strCmdText;
                 //strCmdText = "\"\\\\192.168.1.124\\private\\doc\\Pluralsight\\Architecting Azure Solutions (70-534)- Infrastructure and Networking\\0. Introduction to the Infrastructure and Networking Objective Domain\\" + listView1.SelectedItems[0].Text + "\"";
-                strCmdText = "\"" +  filename + "\""; ;
-                System.Diagnostics.Process.Start("C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc.exe", strCmdText);
-              
+               
+                System.Diagnostics.Process.Start("C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc.exe", filename);
+                System.Console.WriteLine(filename);
 
                 SAve_Click();
             }
